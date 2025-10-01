@@ -84,7 +84,9 @@ fun <T> AutoSizeFlowLayoutMultiSelect(
         val infos = measurables.map { m ->
             val w = m.maxIntrinsicWidth(Constraints.Infinity)
             val h = m.minIntrinsicHeight(w)
-            Info(m, w, h)
+            // 单个 item 的宽度不能超过 maxWidth，否则无法触发 ellipsis
+            val finalW = minOf(w, maxWidth)
+            Info(m, finalW, h)
         }
 
         val rows = mutableListOf<MutableList<Info>>()

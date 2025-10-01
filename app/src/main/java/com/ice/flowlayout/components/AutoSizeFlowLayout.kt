@@ -73,7 +73,9 @@ fun <T> AutoSizeFlowLayout(
         val infos = measurables.map { m ->
             val w = m.maxIntrinsicWidth(Constraints.Infinity)
             val h = m.minIntrinsicHeight(w)
-            Info(m, w, h)
+            // 单个 item 的宽度不能超过 maxWidth，否则无法触发 ellipsis
+            val finalW = minOf(w, maxWidth)
+            Info(m, finalW, h)
         }
 
         // 2. 按行分组，初步规划所有数据 将会分成 多少行，每行都有哪些数据。
